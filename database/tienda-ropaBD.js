@@ -195,7 +195,7 @@ db.a.deleteOne({ "producto.nombre": "Sudadera con Capucha" });
 
 //Cantidad vendida de prendas por fecha
 
-const fechaEspecifica = new Date("2024-07-14"); // Cambia la fecha según necesites
+const fechaEspecifica = new Date("2024-07-14");
 db.ventas.aggregate([
     {
         $match: { fecha_venta: fechaEspecifica }
@@ -263,6 +263,3 @@ db.ventas.aggregate([
         $limit: 5
     }
 ]);
-
-
-
