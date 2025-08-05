@@ -63,78 +63,80 @@ Base de datos sencilla diseñada y adaptada para un sistema en línea para una t
 
 ***
 
-# Sección del ***API***
+# Sección del *API*
 
 ***
 
-## 📘 Endpoints
+## 📘 *Endpoints*
+
+Solo se muestra el *endpoint* de Usuarios por motivo de practicidad, sin embargo la misma lógica opera para los otros *endpoints* de marcas, prendas y ventas.
 
 
-### Obtener todos los libros a la vez
+### Obtener todos los usuarios a la vez
 
 - **Tipo de método:** `GET`
 - **Enlace del endpoint:**
 
     ```http
-    GET http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/libros
+    GET http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios
     ```
 
-- **Descripción breve:** Obtiene todos los libros que se contienen dentro de la librería a la vez.
+- **Descripción breve:** Obtiene todos los usuarios que se contienen dentro de la tienda de ropa a la vez.
 
 - **Ejemplo de estructura básica del JSON:**
     ```json
     [
         {
             "id": 1,
-            "titulo": "Libro Alfa",
+            "titulo": "Usuario Alfa",
             "autor": "Primer autor",
             "anio": 2023
         },
         {
             "id": 2,
-            "titulo": "Libro Beta",
+            "titulo": "Usuario Beta",
             "autor": "Segundo autor",
             "anio": 2025
         }
     ]
     ```
 
-### Obtener un solo libro por su id
+### Obtener un solo usuario por su id
 
 - **Tipo de método:** `GET`
 - **Enlace del endpoint:**
 
     ```http
-    GET http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/libros?id=1
+    GET http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios?id=1
     ```
 
-- **Descripción breve:** A comparación del endpoint anterior, este solo obtiene un único libro y para ello utiliza la id específica del libro.
+- **Descripción breve:** A comparación del endpoint anterior, este solo obtiene un único usuario y para ello utiliza la id específica del usuario.
 
 - **Ejemplo de estructura básica del JSON:**
     ```json
     {
         "id": 1,
-        "titulo": "Libro Alfa",
+        "titulo": "Usuario Alfa",
         "autor": "Primer autor",
         "anio": 2023
     }
     ```
 
-### Insertar un nuevo libro
+### Insertar un nuevo usuario
 
 - **Tipo de método:** `POST`
 - **Enlace del endpoint:**
 
     ```http
-    POST http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/libros
+    POST http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios
     ```
 
-- **Descripción breve:** Ingresa un nuevo libro con sus datos a la librería.
+- **Descripción breve:** Ingresa un nuevo usuario con sus datos a la tienda de ropa.
 
 - **Ejemplo de estructura básica del JSON:**
     ```json
     {
-        "titulo": "Ejemplo de libro",
+        "titulo": "Ejemplo de usuario",
         "autor": "Autor Ficticio",
         "anio": 2024
     }
@@ -143,20 +145,20 @@ Base de datos sencilla diseñada y adaptada para un sistema en línea para una t
 - **Estructura básica de respuesta:**
     ```json
     {
-        "mensaje": "Libro agregado exitosamente a la base de datos"
+        "mensaje": "Usuario creado exitosamente en la base de datos con la siguiente ID: " "id"
     }
     ```
 
-### Actualizar un libro por su id
+### Actualizar un usuario por su id
 
 - **Tipo de método:** `PUT`
 - **Enlace del endpoint:**
 
     ```http
-    PUT http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/libros?id=1
+    PUT http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios?id=1
     ```
 
-- **Descripción breve:** Este endpoint toma los datos de un libro y cambia sus datos actualizando la información.
+- **Descripción breve:** Este endpoint toma los datos de un usuario y cambia sus datos actualizando la información.
 
 - **Ejemplo de estructura básica del JSON:**
     ```json
@@ -171,25 +173,25 @@ Base de datos sencilla diseñada y adaptada para un sistema en línea para una t
 - **Estructura básica de respuesta:**
     ```json
     {
-        "mensaje": "Libro actualizado exitosamente"
+        "mensaje": "Información del usuario actualizada"
     }
     ```
 
-### Eliminar un libro por su id
+### Eliminar un usuario por su id
 
 - **Tipo de método:** `DELETE`
 - **Enlace del endpoint:**
 
     ```http
-    DELETE http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/libros?id=1
+    DELETE http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios?id=1
     ```
 
-- **Descripción breve:** Elimina por completo un libro de la librería.
+- **Descripción breve:** Elimina por completo un usuario de la tienda de ropa.
 
 - **Estructura básica de respuesta:**
     ```json
     {
-        "mensaje": "Libro eliminado exitosamente"
+        "mensaje": "Usuario eliminado con éxito"
     }
     ```
 

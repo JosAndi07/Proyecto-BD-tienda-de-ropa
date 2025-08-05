@@ -10,9 +10,17 @@ def create_app():
     mongo.init_app(app)
     CORS(app)
 
-    from .controllers.libros import libros
+    from .controllers.usuarios import usuarios
+    app.register_blueprint(usuarios, url_prefix="/proyecto-BD-tienda-ropa/api/v1")
 
-    app.register_blueprint(libros, url_prefix="/proyecto-BD-tienda-ropa/api/v1")
+    from .controllers.marcas import marcas
+    app.register_blueprint(marcas, url_prefix="/proyecto-BD-tienda-ropa/api/v1")
+
+    from .controllers.prendas import prendas
+    app.register_blueprint(prendas, url_prefix="/proyecto-BD-tienda-ropa/api/v1")
+
+    from .controllers.ventas import ventas
+    app.register_blueprint(ventas, url_prefix="/proyecto-BD-tienda-ropa/api/v1")
 
     CORS(app, origins="*")
 
