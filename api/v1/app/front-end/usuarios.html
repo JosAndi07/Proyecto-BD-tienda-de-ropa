@@ -1,0 +1,76 @@
+<h2>Usuarios</h2>
+    <table id="tabla-usuarios">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Contraseña</th>
+                <th>Dirección</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="formulario">
+        <h3>Agregar nuevo usuario</h3>
+        <input type="text" id="nombreUsuario" placeholder="Nombre del usuario">
+        <input type="text" id="correoUsuario" placeholder="Correo del usuario">
+        <input type="text" id="contrasenaUsuario" placeholder="Contraseña del usuario">
+        <input type="text" id="direccionUsuario" placeholder="Dirección del usuario">
+        <input type="text" id="rolUsuario" placeholder="Rol del usuario">
+        <input type="hidden" id="idUsuario">
+        <button id="btnAgregar" onclick="agregarUsuario()">Agregar</button>
+    </div>
+
+    <script>
+        function agregarUsuario(){
+            const nombre = document.getElementById("nombreUsuario").value;
+            const correo = document.getElementById("correoUsuario").value;
+            const contrasena = document.getElementById("contrasenaUsuario").value;
+            const direccion = document.getElementById("direccionUsuario").value;
+            const rol = document.getElementById("rolUsuario").value;
+            
+            fetch("http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, correo: correo, contrasena, direccion, rol })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarUsuarios();
+            });
+        }
+
+        function actualizarUsuario() {
+            const id = document.getElementById("idUsuario").value;
+            const nombre = document.getElementById(`nombreUsuario${id}`).value;
+            const correo = document.getElementById(`correoUsuario${id}`).value;
+            const contrasena = document.getElementById(`contrasenaUsuario${id}`).value;
+            const direccion = document.getElementById(`direccionUsuario${id}`).value;
+            const rol = document.getElementById(`rolUsuario${id}`).value;
+
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios?id=${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, correo: correo, contrasena, direccion, rol })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarUsuarios();
+            });
+    }
+
+
+        function eliminarUsuario(id){
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios?id=${id}`, {
+                method: "DELETE"
+            })
+            .then(response => response())
+            .then(data => alert(data.mensaje || data.error));cargarMarcas();
+        }
+    </script>

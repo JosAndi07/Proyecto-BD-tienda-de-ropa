@@ -1,0 +1,33 @@
+body{
+    font-size: larger;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #A31D1D;
+}
+h1, h2{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+table, th, td{
+    border: 1px solid black;
+    padding: 6px;
+    border-width: 3px;
+    background-color: white;
+}
+input, button{
+    padding: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    font-size: large;
+}
+#btnEliminar{
+    background-color: darkred;
+    color: white;
+}
+#btnActualizar{
+    background-color: darkblue;
+    color: white;
+}
+#btnAgregar{
+    background-color: green;
+}

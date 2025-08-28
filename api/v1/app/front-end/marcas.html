@@ -1,0 +1,66 @@
+<h2>Marcas</h2>
+
+    <table id="tabla-marcas">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>País</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="formulario">
+        <h3>Agregar nueva marca</h3>
+        <input type="text" id="nombreMarca" placeholder="Nombre de la marca">
+        <input type="text" id="paisMarca" placeholder="País de origen">
+        <input type="hidden" id="idMarca">
+        <button id="btnAgregar" onclick="agregarMarca()">Agregar</button>
+    </div>
+
+    <script>
+        function agregarMarca(){
+            const nombre = document.getElementById("nombreMarca").value;
+            const pais = document.getElementById("paisMarca").value;
+
+            fetch("http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/marcas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, pais: pais })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarMarcas();
+            });
+        }
+
+        function actualizarMarca() {
+            const id = document.getElementById("idMarca").value;
+            const nombre = document.getElementById(`nombreMarca${id}`).value;
+            const pais = document.getElementById(`paisMarca${id}`).value;
+
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/marcas?id=${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, pais: pais })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarMarcas();
+            });
+        }
+
+        function eliminarMarca(id){
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/marcas?id=${id}`, {
+                method: "DELETE"
+            })
+            .then(response => response())
+            .then(data => alert(data.mensaje || data.error));cargarMarcas();
+
+        console.log({nombre, pais});
+        }
+    </script>

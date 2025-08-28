@@ -3,20 +3,9 @@ from app.models.usuarios import modeloUsuarios
 
 usuarios = Blueprint('usuarios', __name__)
 
-#def obtener_usuarios():
-#    id_usuario = request.args.get('id')
-#    if id_usuario is not None:
-#        return f"ID del usuario: {id_usuario}", 200
-#    else:
-#        return "Vacío", 200
-
 #Métodos para ejecutar los métodos de models; obtener todos, obtener por id, ingresar, actualizar y eliminar
 
-#Obtener todos
-
-
-
-#Obtener por id, uno solo
+#Obtener
 
 @usuarios.route('/usuarios', methods = ['GET'])
 def obtener_usuario():

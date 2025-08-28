@@ -1,14 +1,23 @@
-from flask import Flask
+import os
+from flask import Flask, send_from_directory
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 
 mongo = PyMongo()
 
 def create_app():
-    app = Flask(__name__)
-    app.config["MONGO_URI"] = "mongodb+srv://andresjmb20:perseusgrc99@cluster0.opbpzao.mongodb.net/proyecto-BD-tienda-ropa"
+    app = Flask(__name__, static_folder="front-end")
+    app.config["MONGO_URI"] = "mongodb+srv://andresjmb20:perseusgrc99@cluster0.opbpzao.mongodb.net/tienda-ropaBD"
     mongo.init_app(app)
-    CORS(app)
+    CORS(app, origins="*")
+
+    @app.route('/')
+    def inicio():
+        return send_from_directory(app.static_folder, "principal.html")
+    
+    @app.route('/<path:nombre_archivo>')
+    def cargar_html(nombre_archivo):
+        return send_from_directory(app.static_folder, nombre_archivo)
 
     from .controllers.usuarios import usuarios
     app.register_blueprint(usuarios, url_prefix="/proyecto-BD-tienda-ropa/api/v1")

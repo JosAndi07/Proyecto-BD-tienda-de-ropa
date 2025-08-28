@@ -33,7 +33,7 @@ class modeloMarcas:
             marca = mongo.db.marcas.insert_one(datos_marca)
             return str(marca.inserted_id)
         except Exception as e:
-            print(f"Error al ingresar nuevo marca: {e}")
+            print(f"Error al ingresar nueva marca: {e}")
             return None
     
     #Método para actualizar los datos de una marca

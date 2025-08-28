@@ -1,0 +1,114 @@
+    <h2>Ventas</h2>
+    <table id="tabla-ventas">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del producto</th>
+                <th>Marca</th>
+                <th>Talla</th>
+                <th>Fecha de la venta</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Medio de pago</th>
+                <th>Nombre del cliente</th>
+                <th>Correo del cliente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="formulario">
+        <h3>Agregar nueva venta</h3>
+        <input type="text" id="nombreProductoVenta" placeholder="Nombre de la venta">
+        <input type="text" id="marcaVenta" placeholder="Marca del producto">
+        <input type="text" id="tallaVenta" placeholder="Talla de la prenda">
+        <input type="text" id="fechaVenta" placeholder="Fecha de la venta">
+        <input type="text" id="cantidadVenta" placeholder="Cantidad de prendas">
+        <input type="text" id="totalVenta" placeholder="Total">
+        <input type="text" id="pagoVenta" placeholder="Método de pago">
+        <input type="text" id="nombreClienteVenta" placeholder="Nombre del cliente">
+        <input type="text" id="correoClienteVenta" placeholder="Correo del cliente">
+        <input type="hidden" id="idVenta">
+        <button id="btnAgregar" onclick="agregarVenta()">Agregar</button>
+    </div>
+
+    <script>
+        function agregarVenta(){
+            const nombreProducto = document.getElementById("nombreProductoVenta").value;
+            const marca = document.getElementById("marcaVenta").value;
+            const talla = document.getElementById("tallaVenta").value;
+            const fecha_venta = document.getElementById("fechaVenta").value;
+            const cantidad = document.getElementById("cantidadVenta").value;
+            const total = document.getElementById("totalVenta").value;
+            const medio_pago = document.getElementById("pagoVenta").value;
+            const nombreCliente = document.getElementById("nombreClienteVenta").value;
+            const correo = document.getElementById("correoClienteVenta").value;
+
+            const producto = {
+                nombre: nombreProducto,
+                marca: marca,
+                talla: talla
+            }
+
+            const cliente = {
+                nombre: nombreCliente,
+                correo: correo
+            }
+
+            
+            fetch("http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/ventas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ producto, fecha_venta, cantidad, total, medio_pago, cliente })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarVentas();
+            });
+        }
+
+        function actualizarVenta() {
+            const id = document.getElementById("idVenta").value;
+            const nombreProducto = document.getElementById(`nombreProductoVenta${id}`).value;
+            const marca = document.getElementById(`marcaVenta${id}`).value;
+            const talla = document.getElementById(`tallaVenta${id}`).value;
+            const fecha_venta = document.getElementById(`fechaVenta${id}`).value;
+            const cantidad = document.getElementById(`cantidadVenta${id}`).value;
+            const total = document.getElementById(`totalVenta${id}`).value;
+            const medio_pago = document.getElementById(`pagoVenta${id}`).value;
+            const nombreCliente = document.getElementById(`nombreClienteVenta${id}`).value;
+            const correo = document.getElementById(`correoClienteVenta${id}`).value;
+
+            const producto = {
+                nombre: nombreProducto,
+                marca: marca,
+                talla: talla
+            }
+
+            const cliente = {
+                nombre: nombreCliente,
+                correo: correo
+            }
+
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/ventas?id=${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ producto, fecha_venta, cantidad, total, medio_pago, cliente })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarVentas();
+            });
+        }
+
+        function eliminarVenta(id){
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/ventas?id=${id}`, {
+                method: "DELETE"
+            })
+            .then(response => response())
+            .then(data => alert(data.mensaje || data.error));cargarMarcas();
+        }
+    </script>

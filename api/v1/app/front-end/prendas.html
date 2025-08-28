@@ -1,0 +1,76 @@
+<h2>Prendas</h2>
+    <table id="tabla-prendas">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Talla</th>
+                <th>Color</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="formulario">
+        <h3>Agregar nueva prenda</h3>
+        <input type="text" id="nombrePrenda" placeholder="Nombre de la prenda">
+        <input type="text" id="marcaPrenda" placeholder="Marca de la prenda">
+        <input type="text" id="precioPrenda" placeholder="Precio de la prenda">
+        <input type="text" id="tallaPrenda" placeholder="Talla de la prenda">
+        <input type="text" id="colorPrenda" placeholder="Color de la prenda">
+        <input type="hidden" id="idPrenda">
+        <button id="btnAgregar" onclick="agregarPrenda()">Agregar</button>
+    </div>
+
+    <script>
+        function agregarPrenda(){
+            const nombre = document.getElementById("nombrePrenda").value;
+            const marca = document.getElementById("marcaPrenda").value;
+            const precio = document.getElementById("precioPrenda").value;
+            const talla = document.getElementById("tallaPrenda").value;
+            const color = document.getElementById("colorPrenda").value;
+            
+            fetch("http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/prendas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, marca: marca, precio, talla, color })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarPrendas();
+            });
+        }
+
+        function actualizarPrenda() {
+            const id = document.getElementById("idPrenda").value;
+            const nombre = document.getElementById(`nombrePrenda${id}`).value;
+            const marca = document.getElementById(`marcaPrenda${id}`).value;
+            const precio = document.getElementById(`precioPrenda${id}`).value;
+            const talla = document.getElementById(`tallaPrenda${id}`).value;
+            const color = document.getElementById(`colorPrenda${id}`).value;
+
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/prendas?id=${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, marca: marca, precio, talla, color })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.mensaje || data.error);
+                cargarPrendas();
+            });
+    }
+
+
+        function eliminarPrenda(id){
+            fetch(`http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/prendas?id=${id}`, {
+                method: "DELETE"
+            })
+            .then(response => response())
+            .then(data => alert(data.mensaje || data.error));cargarMarcas();
+        }
+    </script>

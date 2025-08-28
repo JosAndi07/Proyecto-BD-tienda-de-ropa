@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de ropa</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="disenno.css">
+</head>
+<body>
+    <h1>Administrador de tienda de ropa</h1>
+    <h2>Bienvenido</h2>
+
+    <button onclick="cargarVista('usuarios.html')">Usuarios</button>
+    <button onclick="cargarVista('prendas.html')">Prendas</button>
+    <button onclick="cargarVista('marcas.html')">Marcas</button>
+    <button onclick="cargarVista('ventas.html')">Ventas</button>
+
+    <div id="contenido" style="margin-top: 20px;"></div>
+
+
+    <script>
+        function cargarVista(vista) {
+            $.ajax({
+                url: vista,
+                method: 'GET',
+                success: function(data) {
+                    $('#contenido').html(data);
+                    if (vista === 'ventas.html') cargarVentas();
+                    else if (vista === 'marcas.html') cargarMarcas();
+                    else if (vista === 'usuarios.html') cargarUsuarios();
+                    else if (vista === 'prendas.html') cargarPrendas();
+                },
+                error: function(){
+                    $('#contenido').html('<p>Error al cargar la vista</p>');
+                }
+            });
+        }
+
+        function cargarVentas(){
+            const url = `http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/ventas`;
+
+            fetch(url).then(response => {
+                if (!response.ok){
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector("#tabla-ventas tbody");
+                tbody.innerHTML = "";
+
+                data.forEach(venta => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${venta._id}</td>
+                        <td>${venta.producto.nombre}</td>
+                        <td>${venta.producto.marca}</td>
+                        <td>${venta.producto.talla}</td>
+                        <td>${venta.fecha_venta}</td>
+                        <td>${venta.cantidad}</td>
+                        <td>${venta.total}</td>
+                        <td>${venta.medio_pago}</td>
+                        <td>${venta.cliente.nombre}</td>
+                        <td>${venta.cliente.correo}</td>
+                        <td>
+                            <button id="btnActualizar" onclick="actualizarVenta('${venta._id}')">Actualizar</button>
+                            <button id="btnEliminar" onclick="eliminarVenta('${venta._id}')">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => {
+                console.error("Error cargando ventas:", err);
+            });
+        }
+
+        function cargarMarcas(){
+            const url = `http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/marcas`;
+
+            fetch(url).then(response => {
+            if (!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector("#tabla-marcas tbody");
+                tbody.innerHTML = "";
+
+                data.forEach(marca => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${marca._id}</td>
+                        <td>${marca.nombre}</td>
+                        <td>${marca.pais}</td>
+                        <td>
+                            <button id="btnActualizar" onclick="actualizarMarca('${marca._id}')">Actualizar</button>
+                            <button id="btnEliminar" onclick="eliminarMarca('${marca._id}')">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => {
+                console.error("Error cargando marcas:", err);
+            }); 
+        }
+
+        function cargarUsuarios(){
+            const url = `http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/usuarios`;
+
+            fetch(url).then(response => {
+            if (!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector("#tabla-usuarios tbody");
+                tbody.innerHTML = "";
+
+                data.forEach(usuario => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${usuario._id}</td>
+                        <td>${usuario.nombre}</td>
+                        <td>${usuario.correo}</td>
+                        <td>${usuario.contrasena}</td>
+                        <td>${usuario.direccion}</td>
+                        <td>${usuario.rol}</td>
+                        <td>
+                            <button id="btnActualizar" onclick="actualizarUsuario('${usuario._id}')">Actualizar</button>
+                            <button id="btnEliminar" onclick="eliminarUsuario('${usuario._id}')">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => {
+                console.error("Error cargando usuarios:", err);
+            });
+        }
+
+        function cargarPrendas(){
+            const url = `http://127.0.0.1:5000/proyecto-BD-tienda-ropa/api/v1/prendas`;
+
+        fetch(url).then(response => {
+            if (!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector("#tabla-prendas tbody");
+                tbody.innerHTML = "";
+
+                data.forEach(prenda => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${prenda._id}</td>
+                        <td>${prenda.nombre}</td>
+                        <td>${prenda.marca}</td>
+                        <td>${prenda.precio}</td>
+                        <td>${prenda.talla}</td>
+                        <td>${prenda.color}</td>
+                        <td>
+                            <button id="btnActualizar" onclick="actualizarPrenda('${prenda._id}')">Actualizar</button>
+                            <button id="btnEliminar" onclick="eliminarPrenda('${prenda._id}')">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => {
+                console.error("Error cargando prendas:", err);
+            });
+        }
+
+    </script>
+
+</body>
+</html>
